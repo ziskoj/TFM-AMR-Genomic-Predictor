@@ -1,0 +1,5 @@
+Modelo	roc_auc_mean	roc_auc_std	f1_mean	f1_std	precision_mean	precision_std	recall_mean	recall_std	accuracy_mean	accuracy_std
+GBT	0.9024	0.0182	0.911	0.0088	0.8798	0.0139	0.9445	0.0072	0.8549	0.015
+RF	0.8964	0.0145	0.8638	0.0075	0.9627	0.0081	0.7835	0.0113	0.806	0.01
+XGBoost	0.9029	0.0196	0.9098	0.0102	0.8867	0.0163	0.9344	0.0085	0.8544	0.0173
+LightGBM	0.9038	0.0162	0.9093	0.0089	0.8908	0.0139	0.9286	0.0087	0.8544	0.0148

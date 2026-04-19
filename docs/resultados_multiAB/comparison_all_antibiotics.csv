@@ -1,0 +1,14 @@
+Antibiótico,Modelo,N_genomas,Pct_R,AUC,AUC_SD,F1,Sensibilidad,Especificidad
+Carbapenémicos,GBT,4044,39.5,0.8461,0.0092,0.708,0.629,0.903
+Carbapenémicos,XGBoost,4044,39.5,0.8449,0.0087,0.72,0.704,0.835
+Carbapenémicos,LightGBM,4044,39.5,0.8437,0.0117,0.711,0.639,0.896
+Carbapenémicos,RF,4044,39.5,0.8386,0.0114,0.683,0.586,0.914
+Carbapenémicos,MLP,4044,39.5,0.8186,0.0152,0.687,0.68,0.78
+Fluoroquinolonas,GBT,3495,69.5,0.904,0.0126,0.8797,0.8958,0.8126
+Fluoroquinolonas,RF,3495,69.5,0.8966,0.0108,0.8574,0.8006,0.9972
+Fluoroquinolonas,XGBoost,3495,69.5,0.9036,0.0139,0.8779,0.8884,0.8238
+Fluoroquinolonas,LightGBM,3495,69.5,0.9049,0.0124,0.8763,0.8806,0.8529
+Cefalosporinas 3G,GBT,3763,78.6,0.9024,0.0182,0.911,0.9445,0.7237
+Cefalosporinas 3G,RF,3763,78.6,0.8964,0.0145,0.8638,0.7835,1.0
+Cefalosporinas 3G,XGBoost,3763,78.6,0.9029,0.0196,0.9098,0.9344,0.71
+Cefalosporinas 3G,LightGBM,3763,78.6,0.9038,0.0162,0.9093,0.9286,0.7906
