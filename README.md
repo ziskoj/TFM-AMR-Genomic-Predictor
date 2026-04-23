@@ -19,6 +19,7 @@ resistencia identificados en genomas bacterianos completos.
 ## Resultados
 
 Evaluación mediante 5-fold StratifiedKFold con hiperparámetros optimizados (GridSearchCV).
+Valores obtenidos de los TSVs en `docs/resultados_carbapenems/` y `docs/resultados_multiAB/`.
 
 ### Carbapenémicos (n=4.044 · R=39.5%)
 
@@ -29,7 +30,7 @@ Evaluación mediante 5-fold StratifiedKFold con hiperparámetros optimizados (Gr
 | LightGBM | 0.844 ± 0.012 | 0.711 | 63.9% | 89.6% |
 | Random Forest | 0.839 ± 0.011 | 0.683 | 58.6% | 91.4% |
 
-Top features: `blaOXA-9` (0.101) · `blaKPC-2` (0.082) · `BRP(MBL)` (0.041)
+Top features (GBT): `blaOXA-9` (0.101) · `blaKPC-2` (0.082) · `BRP(MBL)` (0.041)
 
 ### Fluoroquinolonas — ciprofloxacino (n=3.495 · R=69.5%)
 
@@ -40,7 +41,7 @@ Top features: `blaOXA-9` (0.101) · `blaKPC-2` (0.082) · `BRP(MBL)` (0.041)
 | **LightGBM** ← mejor AUC | **0.905 ± 0.012** | 0.876 | 88.1% | 85.3% |
 | Random Forest | 0.897 ± 0.011 | 0.857 | 80.1% | 99.7% |
 
-Top features: `parC` (0.127) · `gyrA Salmonella isangi` (0.072) · `ompK36` (0.043)
+Top features (GBT): `parC` (0.126) · `gyrA Salmonella isangi` (0.072) · `ompK36 p.N218H` (0.043)
 
 ### Cefalosporinas 3G — ceftriaxona (n=3.763 · R=78.6%)
 
@@ -88,15 +89,35 @@ TFM-AMR-Genomic-Predictor/
 │       ├── 13_xgboost_lightgbm.py         # XGBoost y LightGBM
 │       ├── 14_deep_learning.py            # MLP (red neuronal)
 │       ├── 15_metricas_clinicas.py        # Métricas clínicas (sens/spec/VPP/VPN)
-│       └── 16_extension_multiAB.py        # Extensión FQ + Ceph3G (pipeline completo)
+│       ├── 16_extension_multiAB.py        # Pipeline FQ + Ceph3G (datos + modelos)
+│       ├── 17_figuras_eda.py              # Figuras EDA reproducibles (fig4–fig8)
+│       ├── 18_figuras_modelos_carbapenems.py  # Figuras ROC + confusion + feat.imp.
+│       └── 19_figuras_multiAB.py          # Figuras comparativas multi-AB (figA–figE)
 ├── docs/
-│   ├── figures/
-│   │   ├── estudio_multiAB/               # Figuras A-E comparativas multi-AB
-│   │   └── ...                            # Figuras EDA + ROC + feature importance
+│   ├── figuras_tfm/                       # fig4–fig8 + ROC + confusion + feat.imp.
+│   ├── figuras_multiab/                   # figA–figE comparativas multi-antibiótico
+│   ├── resultados_carbapenems/            # TSVs métricas y feature importance (carbapenémicos)
+│   │   ├── resultados_baseline.tsv        # RF/GBT/SVM/LR baseline
+│   │   ├── resultados_optimizacion.tsv    # GBT/RF optimizados (GridSearchCV)
+│   │   ├── resultados_xgb_lgbm.tsv        # XGBoost y LightGBM
+│   │   ├── resultados_dl.tsv              # MLP (deep learning)
+│   │   ├── metricas_clinicas.tsv          # Sens/Spec/VPP/VPN/LR+ todos los modelos
+│   │   ├── feature_importance_GBT.tsv     # Importancia de genes (GBT)
+│   │   ├── feature_importance_RF.tsv      # Importancia de genes (RF)
+│   │   ├── feature_importance_XGB.tsv     # Importancia de genes (XGBoost)
+│   │   ├── feature_importance_LGBM.tsv    # Importancia de genes (LightGBM)
+│   │   └── estadisticas_genes_eda.tsv     # Chi² + FDR para 188 genes AMR
 │   └── resultados_multiAB/                # TSVs métricas FQ + Ceph3G
-├── data/                                  # Metadatos (sin FASTAs por tamaño)
-├── notebooks/                             # Jupyter notebooks de análisis
-└── cowork-backup/                         # Entorno reproducible con auditoría
+│       ├── comparison_all_antibiotics.csv # Tabla comparativa global 3 antibióticos
+│       ├── resultados_fluoroquinolones.tsv
+│       ├── resultados_cephalosporins3g.tsv
+│       ├── metricas_clinicas_fluoroquinolones.tsv
+│       ├── metricas_clinicas_cephalosporins3g.tsv
+│       ├── feature_importance_fluoroquinolones_GBT.tsv
+│       └── feature_importance_cephalosporins3g_GBT.tsv
+├── data/
+│   └── ml_matrix_binary.csv.gz            # Matriz ML principal (4044×188, binaria)
+└── cowork-backup/                         # Entorno reproducible con auditoría MD5
 ```
 
 ## Pipeline
@@ -120,38 +141,36 @@ BV-BRC API
             ▼
     Matriz binaria 188 features (06)
             │
-            ├── EDA + Estadística (08)
+            ├── EDA + Estadística (08 → figuras: 17)
             │
             ▼
     ┌──────────────────────────────────┐
     │        MODELOS ML                │
     ├──────────────────────────────────┤
-    │ Carbapenémicos  (07 + 11 + 13)  │
+    │ Carbapenémicos  (07 + 11 + 13)  │ → figuras: 18
     │ Deep Learning MLP        (14)   │
     │ Métricas clínicas        (15)   │
-    │ Extensión multi-AB       (16)   │
+    │ Extensión multi-AB       (16)   │ → figuras: 19
     │   └── Fluoroquinolonas          │
     │   └── Cefalosporinas 3G         │
     └──────────────────────────────────┘
 ```
 
-## Entorno
-
-- **SO:** WSL Ubuntu 22.04
-- **Python:** 3.10
-- **Dependencias:** ver `requirements.txt`
-- **Entorno ML:** `amr_env` (scikit-learn, xgboost, lightgbm, tensorflow, pandas)
-- **Entorno anotación:** Conda `rgi_env` (RGI + BLAST + DIAMOND)
-
 ## Reproducibilidad
 
+### Entorno
+
 ```bash
-# Activar entorno Python
+# Entorno ML (scikit-learn, xgboost, lightgbm, tensorflow, pandas, scipy)
 source /mnt/f/TFM_Linux/envs/amr_env/bin/activate
 
-# Activar entorno anotación
+# Entorno anotación (RGI + BLAST + DIAMOND)
 conda activate rgi_env
+```
 
+### Ejecución completa del pipeline
+
+```bash
 # Fase 1 — Descarga
 python scripts/descarga/01_descarga_bvbrc.py
 python scripts/descarga/02_descarga_amr_fenotipos.py
@@ -166,18 +185,58 @@ python scripts/anotacion/12_consolidar_pointfinder.py
 
 # Fase 3 — ML carbapenémicos
 python scripts/ml/06_build_matrix.py
-python scripts/ml/08_eda.py
 python scripts/ml/07_modelo_baseline.py
+python scripts/ml/08_eda.py
 python scripts/ml/11_optimizar_modelo.py
 python scripts/ml/13_xgboost_lightgbm.py
 python scripts/ml/14_deep_learning.py
 python scripts/ml/15_metricas_clinicas.py
 
 # Fase 4 — Extensión multi-AB (fluoroquinolonas + cefalosporinas 3G)
-python scripts/ml/16_extension_multiAB.py
+python scripts/ml/16_extension_multiAB.py \
+    --matrix data/ml_matrix_binary.csv.gz \
+    --output_dir docs/resultados_multiAB \
+    --antibiotics fluoroquinolones cephalosporins3g
 ```
+
+### Regenerar figuras (desde resultados pre-computados)
+
+Los scripts 17–19 leen los TSVs de resultados y regeneran todas las figuras
+sin necesidad de re-entrenar los modelos.
+
+```bash
+source /mnt/f/TFM_Linux/envs/amr_env/bin/activate
+
+# Fig4–Fig8: distribución, histograma, top-30 genes, volcano plot, heatmap
+python scripts/ml/17_figuras_eda.py \
+    --matrix data/ml_matrix_binary.csv.gz \
+    --output_dir docs/figuras_tfm
+
+# ROC, matrices de confusión, feature importance (carbapenémicos)
+python scripts/ml/18_figuras_modelos_carbapenems.py \
+    --matrix      data/ml_matrix_binary.csv.gz \
+    --results_dir docs/resultados_carbapenems \
+    --output_dir  docs/figuras_tfm \
+    --from-tsv
+
+# FigA–FigE: comparativa multi-antibiótico
+python scripts/ml/19_figuras_multiAB.py \
+    --results_dir docs/resultados_multiAB \
+    --output_dir  docs/figuras_multiab
+```
+
+> Para generar las curvas ROC continuas (en lugar de puntos de operación),
+> ejecutar el script 18 sin `--from-tsv`. Requiere los modelos `.joblib`
+> en `docs/resultados_carbapenems/` y tarda ~10 minutos.
+
+## Entorno técnico
+
+- **SO:** WSL Ubuntu 22.04
+- **Python:** 3.10
+- **Entorno ML:** `amr_env` (scikit-learn, xgboost, lightgbm, tensorflow, pandas, scipy, statsmodels)
+- **Entorno anotación:** Conda `rgi_env` (RGI + BLAST + DIAMOND)
 
 ## Autor
 
 **Trabajo Fin de Máster — Bioinformática y Ciencia de Datos**  
-Repositorio privado · Licencia MIT
+Julián Soriano Valero · Repositorio privado · Licencia MIT
