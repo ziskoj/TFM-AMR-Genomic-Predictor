@@ -1,0 +1,189 @@
+	importance
+RGI_rsmA	165
+RGI_Klebsiella pneumoniae KpnE	146
+RGI_acrD	131
+RGI_Escherichia coli UhpT with mutation conferring resistance to fosfomycin	127
+RGI_FosA6	115
+RGI_eptB	109
+RGI_adeF	105
+RGI_CRP	102
+RGI_Escherichia coli AcrAB-TolC with MarR mutations conferring resistance to ciprofloxacin and tetracycline	101
+RGI_Escherichia coli parC conferring resistance to fluoroquinolones	100
+RGI_Escherichia coli mdfA	91
+RGI_Klebsiella pneumoniae OmpK37	90
+RGI_QnrS1	88
+RGI_Haemophilus influenzae PBP3 conferring resistance to beta-lactam antibiotics	84
+RGI_baeR	83
+RGI_MdtQ	82
+RGI_Salmonella isangi gyrA conferring resistance to fluoroquinolones	80
+RGI_LptD	79
+RGI_Shigella flexneri acrA	78
+RGI_BRP(MBL)	77
+PF_ompK37 p.N230G	77
+RES_blaKPC-2	77
+RGI_Escherichia coli gyrA conferring resistance to fluoroquinolones	75
+RGI_ArnT	74
+RGI_CTX-M-15	73
+RES_fosA6	72
+RGI_tet(A)	71
+PF_ompK36 p.T184P	69
+RGI_APH(3'')-Ib	68
+RGI_OmpA	67
+RES_blaKPC-3	66
+RGI_oqxA	66
+RES_blaSHV-158	64
+RGI_AAC(3)-IIe	63
+RGI_mdtB	62
+RES_blaOXA-9	62
+RGI_QnrB1	61
+RGI_aadA2	59
+RGI_msbA	59
+RES_ARR-3	58
+RGI_Salmonella serovars gyrB conferring resistance to fluoroquinolones	57
+RES_blaTEM-1B	57
+RGI_vanG	56
+RGI_mphE	55
+RES_aac(6')-Ib	55
+RGI_AAC(6')-Ib10	55
+RGI_Escherichia coli EF-Tu mutants conferring resistance to Pulvomycin	53
+RGI_qacEdelta1	53
+RGI_AAC(3)-IId	51
+RGI_APH(6)-Id	51
+RGI_Klebsiella pneumoniae KpnG	51
+RGI_catII from Escherichia coli K-12	48
+RES_dfrA14	48
+PF_ompK37 p.I128M	48
+RES_blaTEM-1A	48
+RES_fosA	47
+RGI_SHV-28	43
+RES_blaSHV-110	42
+RGI_aadA16	42
+PF_ompK36 p.L59V	41
+RGI_TEM-1	39
+RGI_SHV-11	39
+RGI_catA1	38
+RES_fosA7	38
+RGI_Mrx	38
+RGI_OXA-1	37
+RGI_sul1	37
+RES_dfrA12	37
+RES_blaSHV-28	36
+RGI_fosA5	36
+RES_aac(6')-Ib3	36
+RGI_aadA	36
+PF_acrR p.F197I	34
+PF_ompK36 p.A217S	32
+PF_ompK36 p.N49S	31
+RGI_NDM-1	30
+RES_fosA5	29
+RGI_acrB	29
+RES_mph(A)	28
+RGI_PmrF	27
+RES_aac(6')-Ib-cr	27
+RGI_leuO	27
+RGI_SHV-1	27
+PF_ompK36 p.N304E	26
+RGI_dfrA14	26
+RES_aph(3')-Ia	25
+RES_aadA2b	24
+RES_aadA1	24
+RGI_sul2	24
+RGI_mphA	23
+RES_blaSHV-145	23
+RGI_tet(D)	23
+PF_ompK36 p.E232R	22
+RGI_oqxB	22
+RES_blaSHV-172	21
+RGI_CrcB	21
+PF_acrR p.F172S	20
+RES_tet(D)	20
+RES_blaSHV-11	20
+RES_blaSHV-106	19
+RGI_Klebsiella pneumoniae KpnF	19
+RES_aadA2	19
+RES_aac(3)-IIa	19
+RES_blaSHV-12	18
+PF_ompK36 p.T254S	17
+RGI_APH(3')-Ia	17
+PF_ompK36 p.D223G	16
+RES_blaSHV-27	16
+RES_blaSHV-26	16
+RGI_emrR	16
+RGI_floR	14
+RES_blaSHV-98	14
+RES_aph(3'')-Ib	14
+RES_armA	13
+RES_blaCTX-M-15	13
+RES_qnrB1	11
+RES_blaSHV-159	11
+PF_ompK36 p.D224E	11
+RGI_Klebsiella pneumoniae ramR mutants	11
+RGI_KPC-2	10
+RGI_armA	10
+PF_ompK37 p.I70M	10
+RES_dfrA1	10
+RGI_dfrA12	9
+PF_acrR p.G164A	9
+RES_catA1	9
+PF_ompK36 p.G189T	9
+PF_ompK36 p.F198Y	9
+RGI_Klebsiella pneumoniae KpnH	9
+RES_blaSHV-67	8
+PF_ompK36 p.L191Q	8
+RES_sul1	7
+RES_blaSHV-40	7
+RES_blaOXA-1	6
+RGI_dfrA27	6
+RES_blaSHV-187	6
+RGI_SHV-12	6
+PF_ramR p.A19V	5
+RGI_dfrA1	4
+PF_ompK36 p.N218H	4
+RES_OqxB	3
+RES_blaSHV-85	3
+RES_aph(6)-Id	3
+PF_ompK36 p.L191S	3
+PF_ompK36 p.F207W	3
+RGI_mdtC	2
+RES_tet(A)	2
+RES_FloR	2
+RES_sul2	2
+RES_OqxA	1
+RGI_OXA-9	1
+RGI_KPC-3	1
+RGI_arr-3	0
+RGI_SHV-27	0
+RGI_msrE	0
+RGI_marA	0
+RES_blaSHV-56	0
+RES_blaSHV-194	0
+RES_blaSHV-199	0
+RES_blaSHV-182	0
+RES_blaSHV-179	0
+RES_blaNDM-1	0
+RES_aadA16	0
+RES_aac(3)-IId	0
+RES_blaSHV-79	0
+RES_blaSHV-78	0
+RES_blaSHV-81	0
+RES_qnrS1	0
+RES_blaSHV-89	0
+RES_catA2	0
+RES_catB3	0
+RES_dfrA27	0
+PF_acrR p.K201M	0
+RES_mph(E)	0
+RES_msr(E)	0
+PF_ompK36 p.A93S	0
+PF_acrR p.R173G	0
+PF_acrR p.P161R	0
+PF_ompK36 p.D91K	0
+PF_acrR p.L195V	0
+PF_ompK36 p.H235D	0
+PF_ompK36 p.F207Y	0
+PF_ompK36 p.L229V	0
+PF_ompK36 p.L228V	0
+PF_ompK36 p.S89T	0
+PF_ompK36 p.Q227N	0
+PF_ompK36 p.T86V	0
+PF_ompK36 p.T222L	0
