@@ -68,6 +68,26 @@ plt.rcParams.update({
 })
 
 
+def shorten_gene_name(name: str) -> str:
+    """Abrevia nombres de genes RGI/RES/PF para que quepan en los ejes."""
+    import re
+    name = str(name)
+    name = name.replace('RGI_', '').replace('RES_', '').replace('PF_', 'PF:')
+    name = name.replace('Escherichia coli', 'E. coli')
+    name = name.replace('Klebsiella pneumoniae', 'K. pneumoniae')
+    name = name.replace('Salmonella serovars', 'Salmonella spp.')
+    name = name.replace('Salmonella isangi', 'S. isangi')
+    name = name.replace('Acinetobacter baumannii', 'A. baumannii')
+    name = name.replace('conferring resistance to fluoroquinolones', '(res. FQ)')
+    name = name.replace('conferring resistance to ciprofloxacin and tetracycline', '(res. Cip+Tet)')
+    name = name.replace('conferring resistance to', '(res.')
+    name = name.replace('mutations conferring resistance', 'mut.')
+    name = re.sub(r'\s+', ' ', name).strip()
+    if len(name) > 45:
+        name = name[:42] + '...'
+    return name
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # MODO COMPLETO — carga modelos y re-ejecuta cross_val_predict
 # ══════════════════════════════════════════════════════════════════════════════
@@ -205,13 +225,16 @@ def _format_roc_axes(ax):
 
 
 def plot_confusion_matrices_full(roc_data: dict, out: Path):
-    """Matrices de confusión desde cross_val_predict."""
+    """Matrices de confusión desde cross_val_predict. Layout 2×2."""
     from sklearn.metrics import confusion_matrix, roc_auc_score
 
     n = len(roc_data)
-    fig, axes = plt.subplots(1, n, figsize=(4 * n, 4))
-    if n == 1:
-        axes = [axes]
+    rows_n = (n + 1) // 2
+    fig, axes = plt.subplots(rows_n, 2, figsize=(12, rows_n * 5))
+    axes = axes.flatten()
+    # Ocultar ejes sobrantes si n es impar
+    for extra_ax in axes[n:]:
+        extra_ax.set_visible(False)
 
     for ax, (nombre, (y_true, y_prob)) in zip(axes, roc_data.items()):
         y_pred   = (y_prob >= 0.5).astype(int)
@@ -229,11 +252,13 @@ def plot_confusion_matrices_full(roc_data: dict, out: Path):
 
 
 def plot_confusion_matrices_from_tsv(df_metrics: pd.DataFrame, out: Path):
-    """Matrices de confusión desde TP/TN/FP/FN del TSV."""
+    """Matrices de confusión desde TP/TN/FP/FN del TSV. Layout 2×2."""
     n = len(df_metrics)
-    fig, axes = plt.subplots(1, n, figsize=(4 * n, 4))
-    if n == 1:
-        axes = [axes]
+    rows_n = (n + 1) // 2
+    fig, axes = plt.subplots(rows_n, 2, figsize=(12, rows_n * 5))
+    axes = axes.flatten()
+    for extra_ax in axes[n:]:
+        extra_ax.set_visible(False)
 
     for ax, (_, row) in zip(axes, df_metrics.iterrows()):
         nombre = row['modelo']
@@ -285,9 +310,8 @@ def plot_feature_importance(results_dir: Path, out: Path, top_n: int = 20):
 
     colors = [_color(g) for g in df.index]
 
-    # Etiquetas legibles (sin prefijo)
-    labels = [g.replace('RGI_', '').replace('RES_', '').replace('PF_', '')
-              for g in df.index]
+    # Etiquetas legibles con nombres acortados
+    labels = [shorten_gene_name(g) for g in df.index]
 
     fig, ax = plt.subplots(figsize=(9, 7))
     y_pos   = np.arange(len(df))
