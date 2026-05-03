@@ -222,7 +222,7 @@ def fig54_heatmap_20genes(df_stats):
     im = ax.imshow(heat, aspect='auto', cmap='RdBu_r', vmin=0, vmax=vmax)
 
     ax.set_xticks([0, 1])
-    ax.set_xticklabels(['Resistente', 'Susceptible'], fontsize=11, fontweight='bold')
+    ax.set_xticklabels(['Resistente', 'Susceptible'], fontsize=10, fontweight='bold', ha='right', rotation=30)
     ax.set_yticks(range(len(labels)))
     ax.set_yticklabels(labels, fontsize=9)
     ax.xaxis.set_ticks_position('bottom')
