@@ -90,12 +90,15 @@ TFM-AMR-Genomic-Predictor/
 │       ├── 14_deep_learning.py            # MLP (red neuronal)
 │       ├── 15_metricas_clinicas.py        # Métricas clínicas (sens/spec/VPP/VPN)
 │       ├── 16_extension_multiAB.py        # Pipeline FQ + Ceph3G (datos + modelos)
-│       ├── 17_figuras_eda.py              # Figuras EDA reproducibles (fig4–fig8)
-│       ├── 18_figuras_modelos_carbapenems.py  # Figuras ROC + confusion + feat.imp.
-│       └── 19_figuras_multiAB.py          # Figuras comparativas multi-AB (figA–figE)
+│       ├── 17_figuras_eda.py              # Figuras EDA (versión base)
+│       ├── 18_figuras_modelos_carbapenems.py  # Figuras ROC + confusion + feat.imp. (versión base)
+│       ├── 19_figuras_multiAB.py          # Figuras comparativas multi-AB (versión base)
+│       ├── 21_figuras_mejoradas.py        # Figuras finales: top-30 genes, heatmap,
+│       │                                  #   diagrama flujo pipeline, ROC, volcano
+│       ├── 22_figura_flujo_revisada.py    # Figura brecha diagnóstica convencional vs ML
+│       └── 22_volcano.py                  # Volcano plot optimizado (fig7_volcano_final.png)
 ├── docs/
-│   ├── figuras_tfm/                       # fig4–fig8 + ROC + confusion + feat.imp.
-│   ├── figuras_multiab/                   # figA–figE comparativas multi-antibiótico
+│   ├── figures/                           # Figuras canónicas finales (todas las figuras del TFM)
 │   ├── resultados_carbapenems/            # TSVs métricas y feature importance (carbapenémicos)
 │   │   ├── resultados_baseline.tsv        # RF/GBT/SVM/LR baseline
 │   │   ├── resultados_optimizacion.tsv    # GBT/RF optimizados (GridSearchCV)
@@ -115,9 +118,8 @@ TFM-AMR-Genomic-Predictor/
 │       ├── metricas_clinicas_cephalosporins3g.tsv
 │       ├── feature_importance_fluoroquinolones_GBT.tsv
 │       └── feature_importance_cephalosporins3g_GBT.tsv
-├── data/
-│   └── ml_matrix_binary.csv.gz            # Matriz ML principal (4044×188, binaria)
-└── cowork-backup/                         # Entorno reproducible con auditoría MD5
+└── data/
+    └── ml_matrix_binary.csv.gz            # Matriz ML principal (4044×188, binaria)
 ```
 
 ## Pipeline
@@ -141,19 +143,32 @@ BV-BRC API
             ▼
     Matriz binaria 188 features (06)
             │
-            ├── EDA + Estadística (08 → figuras: 17)
+            ├── EDA + Estadística (08)
             │
             ▼
-    ┌──────────────────────────────────┐
-    │        MODELOS ML                │
-    ├──────────────────────────────────┤
-    │ Carbapenémicos  (07 + 11 + 13)  │ → figuras: 18
-    │ Deep Learning MLP        (14)   │
-    │ Métricas clínicas        (15)   │
-    │ Extensión multi-AB       (16)   │ → figuras: 19
-    │   └── Fluoroquinolonas          │
-    │   └── Cefalosporinas 3G         │
-    └──────────────────────────────────┘
+    ┌──────────────────────────────────────┐
+    │           MODELOS ML                 │
+    ├──────────────────────────────────────┤
+    │ Baseline RF/GBT/SVM/LR       (07)   │
+    │ Optimización GBT             (11)   │
+    │ XGBoost + LightGBM           (13)   │  → resultados_carbapenems/
+    │ Deep Learning MLP            (14)   │
+    │ Métricas clínicas            (15)   │
+    │ Extensión multi-AB           (16)   │  → resultados_multiAB/
+    │   └── Fluoroquinolonas              │
+    │   └── Cefalosporinas 3G             │
+    └──────────────────────────────────────┘
+            │
+            ▼
+    ┌──────────────────────────────────────┐
+    │           FIGURAS                    │
+    ├──────────────────────────────────────┤
+    │ EDA + modelos carbapenems (17-18)   │
+    │ Multi-AB comparativa      (19)      │  → docs/figures/
+    │ Figuras mejoradas         (21)      │
+    │ Brecha diagnóstica        (22_flu.) │
+    │ Volcano plot optimizado   (22_vol.) │
+    └──────────────────────────────────────┘
 ```
 
 ## Reproducibilidad
@@ -201,33 +216,32 @@ python scripts/ml/16_extension_multiAB.py \
 
 ### Regenerar figuras (desde resultados pre-computados)
 
-Los scripts 17–19 leen los TSVs de resultados y regeneran todas las figuras
-sin necesidad de re-entrenar los modelos.
+Todos los scripts de figuras leen los TSVs de `docs/resultados_*` y la matriz
+`data/ml_matrix_binary.csv.gz` sin necesidad de re-entrenar los modelos.
+Todas las figuras se guardan en `docs/figures/`.
 
 ```bash
 source /mnt/f/TFM_Linux/envs/amr_env/bin/activate
+cd scripts/ml/
 
-# Fig4–Fig8: distribución, histograma, top-30 genes, volcano plot, heatmap
-python scripts/ml/17_figuras_eda.py \
-    --matrix data/ml_matrix_binary.csv.gz \
-    --output_dir docs/figuras_tfm
+# Figuras finales del TFM: top-30 genes, heatmap top-20, diagrama flujo, ROC, volcano
+python 21_figuras_mejoradas.py
 
-# ROC, matrices de confusión, feature importance (carbapenémicos)
-python scripts/ml/18_figuras_modelos_carbapenems.py \
-    --matrix      data/ml_matrix_binary.csv.gz \
-    --results_dir docs/resultados_carbapenems \
-    --output_dir  docs/figuras_tfm \
-    --from-tsv
+# Figura brecha diagnóstica: diagnóstico convencional vs WGS+ML
+python 22_figura_flujo_revisada.py
 
-# FigA–FigE: comparativa multi-antibiótico
-python scripts/ml/19_figuras_multiAB.py \
-    --results_dir docs/resultados_multiAB \
-    --output_dir  docs/figuras_multiab
+# Volcano plot optimizado con etiquetas sin solapamiento
+python 22_volcano.py
+
+# Figuras base EDA y modelos (versiones anteriores a 21/22)
+python 17_figuras_eda.py
+python 18_figuras_modelos_carbapenems.py
+python 19_figuras_multiAB.py
 ```
 
-> Para generar las curvas ROC continuas (en lugar de puntos de operación),
-> ejecutar el script 18 sin `--from-tsv`. Requiere los modelos `.joblib`
-> en `docs/resultados_carbapenems/` y tarda ~10 minutos.
+> Para regenerar las curvas ROC con área bajo la curva continua se requieren
+> los modelos `.joblib` en `docs/resultados_carbapenems/` (no incluidos en el
+> repositorio por tamaño) y tarda ~10 minutos.
 
 ## Entorno técnico
 
